@@ -2,15 +2,15 @@
 
 define(
     [
-        'ui/ElementComponent'
+        'ui/Unit'
     ],
 
     function(
-        ElementComponent
+        Unit
     ) {
 
         function initialize() {
-            ElementComponent.attachTo('.content');
+            Unit.attachTo('.content');
         }
 
         return initialize;

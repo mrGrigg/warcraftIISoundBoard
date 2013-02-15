@@ -1,0 +1,103 @@
+body {
+  padding:20px;
+  position:relative;
+}
+
+.unit {
+  width:100px;
+  height:100px;
+  position:absolute;
+  border:solid 1px gray;
+}
+
+/* --------------------------- */
+/* Sprite classes */
+/* --------------------------- */
+
+.sprite {
+  width:40px;
+  height:40px;
+  position:absolute;
+  top:30px;
+  left:30px;
+  cursor:pointer;
+}
+
+.sprite:active {
+  
+}
+
+.footman {
+  background: url('/images/sprites/Fighterblack.png') no-repeat;
+}
+
+.footman.walk-left.1 {
+  background-position: -4px -60px;
+}
+.footman.walk-left.2 {
+  background-position: -51px -60px;
+}
+.footman.walk-left.3 {
+  background-position: -103px -60px;
+}
+.footman.walk-left.4 {
+  background-position: -153px -60px;
+}
+
+.footman.walk-right {
+  background-position: -8px -106px;
+}
+
+.footman.walk-up {
+  background-position: -9px  -160px;
+}
+
+.footman.walk-down {
+  background-position: -4px -2px;
+}
+
+/* --------------------------- */
+/* Direction buttons */
+/* --------------------------- */
+
+.direction {
+  cursor:pointer;
+  position:absolute;
+  background-color:#7ED7F7;
+}
+
+.direction:hover {
+  background-color: #5897AD;
+}
+
+.top {
+  top:0;
+  height:30px;
+}
+
+.right {
+  width:30px;
+  left:70px;
+}
+
+.bottom {
+  top:70px;
+  height:30px;
+}
+
+.left {
+  left:0;
+  width:30px;
+}
+
+.top.center,
+.bottom.center {
+  left:30px;
+  width:40px;
+}
+
+.left.center,
+.right.center {
+  height:40px;
+  top:30px;
+}
