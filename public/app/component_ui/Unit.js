@@ -5,7 +5,7 @@ define(function(require) {
 
     function element() {
         this.setDirection = function(event) {
-            var walkDirection = 'walk-';
+            var walkDirection = 'step-';
             if ($(this).hasClass('top')) {
                 walkDirection += 'up';
             }else if ($(this).hasClass('bottom')) {
@@ -17,7 +17,10 @@ define(function(require) {
             }
 
             component.setWalkDirection(walkDirection);
-            // component._walking = setInterval(component.animateSprite, 500);
+            if (typeof component._walking !== null) {
+                clearInterval(component._walking);
+            }
+            component._walking = setInterval(component.animateSprite, 150);
         };
 
         this.setWalkDirection = function(newDirection) {
@@ -29,7 +32,7 @@ define(function(require) {
         };
 
         this.getWalkDirection = function(element) {
-            var walkDirection = element.className.match(/walk-\S+/)[0];
+            var walkDirection = element.className.match(/step-\S+/)[0];
 
             return walkDirection;
         };
@@ -42,7 +45,7 @@ define(function(require) {
                 , newSpriteFrame = oldSpriteFrame + 1
                 , newWalkdirection;
 
-            if (newSpriteFrame > 3) {
+            if (newSpriteFrame > 4) {
                 newSpriteFrame = 1;
             }
 
@@ -50,7 +53,6 @@ define(function(require) {
 
             sprite.removeClass(oldWalkDirection);
             sprite.addClass(newWalkdirection);
-            console.log('walking from:', oldSpriteFrame, 'to: ', newSpriteFrame);
         };
 
         this.setUnitActive = function() {
@@ -62,6 +64,21 @@ define(function(require) {
             clearInterval(component._walking);
         };
 
+        this.createSpritePositionArray = function() {
+            var position = {
+                standing: {
+                    up: ''
+                    , upRight: ''
+                    , right: ''
+                    , downRight: ''
+                    , down: ''
+                    , downLeft: ''
+                    , left: ''
+                    , upLeft: ''
+                }
+            };
+        };
+
         this.playSpriteAudio = function(event) {
             //Remove the event so only one sound can play at a time
             component.$node.off('click', '.sprite', component.playSpriteAudio);
@@ -71,10 +88,6 @@ define(function(require) {
 
             //Incriment the sound count
             component._playCount = (component._playCount + 1) % component._soundArray.length;
-        };
-
-        this.bindClickToPlay = function() {
-            component.$node.on('click', '.sprite', component.playSpriteAudio);
         };
 
         //Create the sounds array for this unit
@@ -119,6 +132,10 @@ define(function(require) {
                 };
 
             return new Howl(newSound);
+        };
+
+        this.bindClickToPlay = function() {
+            component.$node.on('click', '.sprite', component.playSpriteAudio);
         };
 
         this.after('initialize', function() {
