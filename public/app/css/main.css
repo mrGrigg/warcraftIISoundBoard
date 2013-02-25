@@ -31,16 +31,19 @@ body {
   background: url('/images/sprites/Fighterblack.png') no-repeat;
 }
 
-.footman.walk-left.1 {
+.footman.walk-left-1{
   background-position: -4px -60px;
 }
-.footman.walk-left.2 {
+
+.footman.walk-left-2{
   background-position: -51px -60px;
 }
-.footman.walk-left.3 {
+
+.footman.walk-left-3{
   background-position: -103px -60px;
 }
-.footman.walk-left.4 {
+
+.footman.walk-left-4{
   background-position: -153px -60px;
 }
 
@@ -52,7 +55,7 @@ body {
   background-position: -9px  -160px;
 }
 
-.footman.walk-down {
+.footman.walk-down.1 {
   background-position: -4px -2px;
 }
 

@@ -17,6 +17,7 @@ define(function(require) {
             }
 
             component.setWalkDirection(walkDirection);
+            component._walking = setInterval(component.animateSprite, 500);
         };
 
         this.setWalkDirection = function(newDirection) {
@@ -24,13 +25,41 @@ define(function(require) {
                 , oldDirection = this.getWalkDirection(sprite[0]);
 
             sprite.removeClass(oldDirection);
-            sprite.addClass(newDirection);
+            sprite.addClass(newDirection + '-1');
         };
 
         this.getWalkDirection = function(element) {
             var walkDirection = element.className.match(/walk-\S+/)[0];
 
             return walkDirection;
+        };
+
+        this.animateSprite = function() {
+            var sprite = component.$node.find('.sprite')
+                , oldWalkDirection = component.getWalkDirection(sprite[0]);
+
+            var oldSpriteFrame = parseInt(oldWalkDirection.match(/\d/)[0], 10)
+                , newSpriteFrame = oldSpriteFrame + 1
+                , newWalkdirection;
+
+            if (newSpriteFrame > 3) {
+                newSpriteFrame = 1;
+            }
+
+            newWalkdirection = oldWalkDirection.replace(/\d/, newSpriteFrame);
+
+            sprite.removeClass(oldWalkDirection);
+            sprite.addClass(newWalkdirection);
+            console.log('walking from:', oldSpriteFrame, 'to: ', newSpriteFrame);
+        };
+
+        this.setUnitActive = function() {
+            component._active = true;
+        };
+
+        this.setUnitInactive = function() {
+            component._active = false;
+            clearInterval(component._walking);
         };
 
         this.after('initialize', function() {
@@ -40,6 +69,8 @@ define(function(require) {
                 .append(unitTemplate());
 
             //Mouseover event for the direction elements
+            this.on('mouseenter', this.setUnitActive);
+            this.on('mouseleave', this.setUnitInactive);
             this.$node.on('mouseover', '.direction', this.setDirection);
             this.$node.on('click', '.sprite', this.playSpriteAudio);
         });
