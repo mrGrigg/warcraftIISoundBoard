@@ -23,8 +23,12 @@ body {
   cursor:pointer;
 }
 
-.sprite:active {
-  
+.sprite .dot {
+  position:absolute;
+  left:20px;
+  height:1px;
+  width:1px;
+  background-color:#f00;
 }
 
 .footman {
@@ -33,18 +37,6 @@ body {
 
 .footman.step-down{
   background-position: -315px -12px;
-}
-.footman.step-down-1 {
-  background-position: -315px -72px;
-}
-.footman.step-down-2 {
-  background-position: -315px -128px;
-}
-.footman.step-down-3 {
-  background-position: -315px -178px;
-}
-.footman.step-down-4 {
-  background-position: -315px -226px;
 }
 
 .footman.walk-left-1{
@@ -119,4 +111,12 @@ body {
 .right.center {
   height:40px;
   top:30px;
+}
+
+.flip {
+  -webkit-transform:scaleX(-1);
+  -moz-transform:scaleX(-1);
+  -ms-transform:scaleX(-1);
+  -o-transform:scaleX(-1);
+  transform:scaleX(-1);
 }
