@@ -2,7 +2,7 @@
 
 define(['ui/Unit'], function(Unit) {
         function initialize() {
-            Unit.attachTo('.content');
+            Unit.attachTo('.warcraft-unit');
         }
 
         return initialize;
