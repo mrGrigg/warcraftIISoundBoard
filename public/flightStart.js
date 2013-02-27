@@ -5,7 +5,7 @@ define([
       // 'components/flight/lib/logger',
       // 'components/flight/tools/debug/debug'
   ],
-  function (compose, registry, advice) {/*, withLogging, debug*/
+  function (compose, registry, advice) {//, withLogging, debug
         //debug.enable(true);
-        compose.mixin(registry, [advice.withAdvice, withLogging]);
+        compose.mixin(registry, [advice.withAdvice]); //, withLogging
   });
