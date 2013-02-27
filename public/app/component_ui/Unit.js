@@ -46,7 +46,7 @@ define(function(require) {
         this.render = function() {
             this.$node
                 .addClass(this.attr.elementClass)
-                .append(unitTemplate());
+                .append(this.unitTemplate());
         };
 
         this.getDirection = function(event) {
