@@ -166,12 +166,13 @@ define(
 
       Component.toString = function() {
         var prettyPrintMixins = mixins.map(function(mixin) {
-          if ($.browser.msie) {
-            var m = mixin.toString().match(/function (.*?)\s?\(/);
-            return (m && m[1]) ? m[1] : "";
-          } else {
-            return mixin.name;
-          }
+//          if ($.browser.msie) {
+//            var m = mixin.toString().match(/function (.*?)\s?\(/);
+//            return (m && m[1]) ? m[1] : "";
+//          } else {
+//            return mixin.name;
+//          }
+          return mixin.name;
         }).join(', ').replace(/\s\,/g,'');//weed out no-named mixins
 
         return prettyPrintMixins;
