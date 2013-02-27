@@ -1,1 +1,0 @@
-define(["./advice","./component","./compose","./logger","./registry","./utils"],function(t,e,n,i,o,r){return{advice:t,component:e,compose:n,logger:i,registry:o,utils:r}});

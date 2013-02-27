@@ -1,11 +1,11 @@
 define([
       'components/flight/lib/compose',
       'components/flight/lib/registry',
-      'components/flight/lib/advice'
-      // 'components/flight/lib/logger',
-      // 'components/flight/tools/debug/debug'
+      'components/flight/lib/advice',
+      'components/flight/lib/logger',
+      'components/flight/tools/debug/debug'
   ],
-  function (compose, registry, advice) {//, withLogging, debug
-        //debug.enable(true);
-        compose.mixin(registry, [advice.withAdvice]); //, withLogging
+  function (compose, registry, advice, withLogging, debug ) {
+        debug.enable(true);
+        compose.mixin(registry, [advice.withAdvice, withLogging]);
   });
