@@ -15,8 +15,8 @@ body {
 /* --------------------------- */
 
 .sprite {
-  width:40px;
-  height:45px;
+  width:48px;
+  height:48px;
   position:absolute;
   top:30px;
   left:30px;
@@ -25,46 +25,26 @@ body {
 
 .sprite .dot {
   position:absolute;
-  left:20px;
-  height:1px;
-  width:1px;
-  background-color:#f00;
+  height:2px;
+  width:2px;
+  left:23px;
+
+}
+
+.top-center {
+  top:0;
+}
+
+.center-center {
+  top:23px;
+}
+
+.bottom-center {
+  bottom:0;
 }
 
 .footman {
   background: url('/images/sprites/footman.png') no-repeat;
-}
-
-.footman.step-down{
-  background-position: -315px -12px;
-}
-
-.footman.walk-left-1{
-  background-position: -4px -60px;
-}
-
-.footman.walk-left-2{
-  background-position: -51px -60px;
-}
-
-.footman.walk-left-3{
-  background-position: -103px -60px;
-}
-
-.footman.walk-left-4{
-  background-position: -153px -60px;
-}
-
-.footman.walk-right {
-  background-position: -8px -106px;
-}
-
-.footman.walk-up {
-  background-position: -9px  -160px;
-}
-
-.footman.walk-down.1 {
-  background-position: -4px -2px;
 }
 
 /* --------------------------- */
@@ -77,8 +57,9 @@ body {
   /*background-color:#7ED7F7;*/
 }
 
-.direction:hover {
-  background-color: #5897AD;
+.direction:hover, 
+.direction:active {
+  background-color: #ccc;
 }
 
 .top {

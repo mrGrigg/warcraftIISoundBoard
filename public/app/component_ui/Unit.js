@@ -4,29 +4,21 @@ define(function(require) {
         , unitTemplate = Handlebars.compile(require('text!templates/unit.html'));
 
     function element() {
-        //Set the direction the unit is facing
-        this.setSpritePosition = function(direction, flip) {
-            var sprite = component.$node.find('.sprite');
-
-            //Always clear flip at the beginning
-            sprite.removeClass('flip');
-
-            if (flip) {
-                sprite.addClass('flip');
-            }
-
-            sprite.css('background-position', direction);
-        };
-
         this.getDirection = function(event) {
             //Get the classes from the element ['top', 'left', 'direction']
             var classNames = this.className.split(' ')
                 , direction = classNames[0]
                 , modifier = classNames[1]
+                , flip = false
                 , positions;
+
+            if (modifier === 'left' || direction === 'left') {
+                flip = true;
+            }
 
             component._direction = direction;
             component._modifier = modifier;
+            component._flip = flip;
 
             //Get the position based on the direction and modifier
             positions = component._position.step[direction][modifier];
@@ -34,7 +26,7 @@ define(function(require) {
             //Positions is an array of background positions
             component._positions = component._position.step[direction][modifier];
             component._frame = 0;
-            
+
             //Clear the walking animation if it exists
             component.stopWalking();
 
@@ -55,14 +47,6 @@ define(function(require) {
             component._active = true;
         };
 
-        this.setUnitInactive = function() {
-            component._active = false;
-
-            component.stopWalking();
-
-            component.stand();
-        };
-
         this.stopWalking = function() {
             if (typeof component._walking !== null) {
                 clearInterval(component._walking);
@@ -71,77 +55,113 @@ define(function(require) {
 
         this.stand = function() {
             var direction = component._direction
-                , modifier = component._modifier
-                , flip = false;
+                , modifier = component._modifier;
 
-            //These positions are just the reflection of the right facing sprite
-            if (modifier === 'left' || direction === 'left') {
-                flip = true;
+            component.setSpritePosition(component._position.stand[direction][modifier]);
+        };
+
+        //Set the direction the unit is facing
+        this.setSpritePosition = function(direction) {
+            var sprite = component.$node.find('.sprite')
+                , flip = component._flip;
+
+            //Always clear flip at the beginning
+            sprite.removeClass('flip');
+
+            if (flip) {
+                sprite.addClass('flip');
             }
 
-            component.setSpritePosition(component._position.stand[direction][modifier], flip);
+            sprite.css('background-position', direction);
+        };
+
+        this.setUnitInactive = function() {
+            component._active = false;
+
+            component.stopWalking();
+
+            component.stand();
         };
 
         this.createSpritePositionArray = function() {
             component._position = {
                 step: {
                     top: {
-                        left: ''
-                        , right: ''
-                        , center: ''
+                        left: [ //flip-x
+                            '-86px -68px'
+                            , '-86px -124px'
+                            , '-86px -172px'
+                            , '-86px -220px'
+                        ]
+                        , right: [
+                            '-86px -68px'
+                            , '-86px -124px'
+                            , '-86px -172px'
+                            , '-86px -220px'
+                        ]
+                        , center: [
+                            '-13px -72px'
+                            , '-13px -128px'
+                            , '-13px -178px'
+                            , '-13px -226px'
+                        ]
                     }
                     , right: {
-                        center: ''
+                        center: [
+                            '-162px -68px'
+                            , '-162px -124px'
+                            , '-162px -172px'
+                            , '-162px -220px'
+                        ]
                     }
                     , bottom: {
-                        left: ''
-                        , right: ''
+                        left: [ //flip-x
+                            '-236px -68px'
+                            , '-236px -124px'
+                            , '-236px -170px'
+                            , '-236px -220px'
+                        ]
+                        , right: [
+                            '-236px -68px'
+                            , '-236px -124px'
+                            , '-236px -170px'
+                            , '-236px -220px'
+                        ]
                         , center: [
-                            '-315px -72px'
-                            , '-315px -128px'
-                            , '-315px -178px'
-                            , '-315px -226px'
+                            '-309px -72px'
+                            , '-309px -128px'
+                            , '-309px -178px'
+                            , '-309px -226px'
                         ]
                     }
                     , left: {
-                        center: ''
+                        center: [ //flip-x
+                            '-162px -68px'
+                            , '-162px -124px'
+                            , '-162px -172px'
+                            , '-162px -220px'
+                        ]
                     }
                 }
                 , stand: {
                     top: {
-                        left: '-99px -12px' //flip-x
-                        , right: '-99px -12px'
-                        , center: '-22px -10px'
+                        left: '-86px -6px' //flip-x
+                        , right: '-86px -6px'
+                        , center: '-13px -9px'
                     }
                     , right: {
-                        center: '-176px -12px'
+                        center: '-162px -6px'
                     }
                     , bottom: {
-                        left: '-244px -12px' //flip-x
-                        , right: '-244px -12px'
-                        , center: '-315px -12px'
+                        left: '-236px -8px' //flip-x
+                        , right: '-236px -8px'
+                        , center: '-309px -10px'
                     }
                     , left: {
-                        center: '-176px -12px' //flip-x
+                        center: '-162px -6px' //flip-x
                     }
                 }
             };
-
-            //Set the default position as stand down
-            component._step = false;
-
-            component.setSpritePosition(component._position.stand.bottom.center);
-        };
-
-        this.playSpriteAudio = function(event) {
-            //Remove the event so only one sound can play at a time
-            component.$node.off('click', '.sprite', component.playSpriteAudio);
-
-            // console.log('Play count:', component._playCount);
-            component._soundArray[component._playCount].play();
-
-            //Incriment the sound count
-            component._playCount = (component._playCount + 1) % component._soundArray.length;
         };
 
         //Create the sounds array for this unit
@@ -174,6 +194,17 @@ define(function(require) {
             }
         };
 
+        this.playSpriteAudio = function(event) {
+            //Remove the event so only one sound can play at a time
+            component.$node.off('click', '.sprite', component.playSpriteAudio);
+
+            // console.log('Play count:', component._playCount);
+            component._soundArray[component._playCount].play();
+
+            //Incriment the sound count
+            component._playCount = (component._playCount + 1) % component._soundArray.length;
+        };
+
         this.newSound = function(fileName) {
             var soundUrl = '/sounds/human/' + fileName
                 , newSound = {
@@ -200,18 +231,22 @@ define(function(require) {
 
             //Render first
             component.render();
-            
+
             //Create all the default values
             component._playCount = 0;
             component._soundArray = [];
             component.createSoundArray();
             component.createSpritePositionArray();
 
+            //Set the default position as stand down
+            component._step = false;
+            component.setSpritePosition(component._position.stand.bottom.center);
+
             //Mouseover event for the direction elements
             component.on('mouseenter', component.setUnitActive);
             component.on('mouseleave', component.setUnitInactive);
             component.$node.on('mouseover', '.direction', component.getDirection);
-            
+
             //Bind the click event to play the sound
             component.bindClickToPlay();
         });
@@ -219,60 +254,3 @@ define(function(require) {
 
     return defineComponent(element);
 });
-
-/*
-        this.setSpritePosition = function(event) {
-            var walkDirection = 'step-';
-            if ($(this).hasClass('top')) {
-                walkDirection += 'up';
-            }else if ($(this).hasClass('bottom')) {
-                walkDirection += 'down';
-            }else if ($(this).hasClass('left')) {
-                walkDirection += 'left';
-            }else if ($(this).hasClass('right')) {
-                walkDirection += 'right';
-            }
-
-            component.setWalkDirection(walkDirection);
-            if (typeof component._walking !== null) {
-                clearInterval(component._walking);
-            }
-            component._walking = setInterval(component.animateSprite, 150);
-        };
-*/
-
-/*
-
-        this.setWalkDirection = function(newDirection) {
-            var sprite = component.$node.find('.sprite')
-                , oldDirection = this.getWalkDirection(sprite[0]);
-
-            sprite.removeClass(oldDirection);
-            sprite.addClass(newDirection + '-1');
-        };
-
-        this.getWalkDirection = function(element) {
-            var walkDirection = element.className.match(/step-\S+/)[0];
-
-            return walkDirection;
-        };
-
-        this.animateSprite = function() {
-            component._step = true;
-
-            var sprite = component.$node.find('.sprite')
-                , oldWalkDirection = component.getWalkDirection(sprite[0])
-                , oldSpriteFrame = parseInt(oldWalkDirection.match(/\d/)[0], 10)
-                , newSpriteFrame = oldSpriteFrame + 1
-                , newWalkdirection;
-
-            if (newSpriteFrame > 4) {
-                newSpriteFrame = 1;
-            }
-
-            newWalkdirection = oldWalkDirection.replace(/\d/, newSpriteFrame);
-
-            sprite.removeClass(oldWalkDirection);
-            sprite.addClass(newWalkdirection);
-        };
-*/
