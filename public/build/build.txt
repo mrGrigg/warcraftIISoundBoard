@@ -34,12 +34,7 @@ components/flight/test/jasmine/lib/bootstrap.css
 main.js
 ----------------
 config.js
-components/flight/lib/utils.js
-components/flight/lib/registry.js
-components/flight/tools/debug/debug.js
-components/flight/lib/compose.js
 components/flight/lib/advice.js
-components/flight/lib/logger.js
 flightStart.js
 components/flight/lib/component.js
 components/requirejs/text.js

@@ -6,6 +6,10 @@
     , "modules": [
         {
             "name": "main"
+            , "exclude": [
+                'components/flight/lib/logger',
+                'components/flight/tools/debug/debug'
+            ]
         }
     ]
     , "logLevel": 0
