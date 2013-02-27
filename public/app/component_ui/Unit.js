@@ -1,12 +1,26 @@
 define(function(require) {
     var component
-        , defineComponent = require('components/flight/lib/component')
-        , unitTemplate = Handlebars.compile(require('text!templates/unit.html'));
+        , defineComponent = require('components/flight/lib/component');
+        //, unitTemplate = Handlebars.compile(require('text!templates/unit.html'));
 
     function element() {
         this.after('initialize', function() {
             component = this;
-
+            this.unitTemplate = Handlebars.compile('<div class="unit"> \
+    <div class="top left direction"></div> \
+    <div class="top center direction"></div> \
+    <div class="top right direction"></div> \
+    <div class="right center direction"></div>\
+    <div class="bottom right direction"></div>\
+    <div class="bottom center direction"></div>\
+    <div class="bottom left direction"></div>\
+    <div class="left center direction"></div>\
+    <div class="sprite footman" id="sprite">\
+        <div class="dot top-center"></div>\
+        <div class="dot center-center"></div>\
+        <div class="dot bottom-center"></div>\
+    </div>\
+</div>')
             //Render first
             this.render();
 
