@@ -251,7 +251,7 @@ define(function(require) {
         };
 
         this.newSound = function(fileName) {
-            var soundUrl = '/sounds/human/' + fileName
+            var soundUrl = 'https://raw.github.com/mrGrigg/warcraftIISoundBoard/master/public/sounds/human/' + fileName
                 , newSound = {
                     volume: 0.5
                     , onend: component.bindClickToPlay
