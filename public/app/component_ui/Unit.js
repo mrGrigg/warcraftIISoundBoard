@@ -4,6 +4,37 @@ define(function(require) {
         , unitTemplate = Handlebars.compile(require('text!templates/unit.html'));
 
     function element() {
+        this.after('initialize', function() {
+            component = this;
+
+            //Render first
+            this.render();
+
+            //Create all the default values
+            this._playCount = 0;
+            this._soundArray = [];
+            this.createSoundArray();
+            this.createSpritePositionArray();
+
+            //Set the default position as stand down
+            this._step = false;
+            this.setSpritePosition(this._position.stand.bottom.center);
+
+            //Mouseover event for the direction elements
+            this.on('mouseenter', this.setUnitActive);
+            this.on('mouseleave', this.setUnitInactive);
+            this.$node.on('mouseover', '.direction', this.getDirection);
+
+            //Bind the click event to play the sound
+            this.bindClickToPlay();
+        });
+
+        this.render = function() {
+            this.$node
+                .addClass(this.attr.elementClass)
+                .append(unitTemplate());
+        };
+
         this.getDirection = function(event) {
             //Get the classes from the element ['top', 'left', 'direction']
             var classNames = this.className.split(' ')
@@ -194,7 +225,7 @@ define(function(require) {
             }
         };
 
-        this.playSpriteAudio = function(event) {
+        this.playSpriteAudio = function(event, data) {
             //Remove the event so only one sound can play at a time
             component.$node.off('click', '.sprite', component.playSpriteAudio);
 
@@ -219,37 +250,6 @@ define(function(require) {
         this.bindClickToPlay = function() {
             component.$node.on('click', '.sprite', component.playSpriteAudio);
         };
-
-        this.render = function() {
-            component.$node
-                .addClass(component.attr.elementClass)
-                .append(unitTemplate());
-        };
-
-        this.after('initialize', function() {
-            component = this;
-
-            //Render first
-            component.render();
-
-            //Create all the default values
-            component._playCount = 0;
-            component._soundArray = [];
-            component.createSoundArray();
-            component.createSpritePositionArray();
-
-            //Set the default position as stand down
-            component._step = false;
-            component.setSpritePosition(component._position.stand.bottom.center);
-
-            //Mouseover event for the direction elements
-            component.on('mouseenter', component.setUnitActive);
-            component.on('mouseleave', component.setUnitInactive);
-            component.$node.on('mouseover', '.direction', component.getDirection);
-
-            //Bind the click event to play the sound
-            component.bindClickToPlay();
-        });
     }
 
     return defineComponent(element);
