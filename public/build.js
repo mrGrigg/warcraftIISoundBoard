@@ -12,6 +12,7 @@
             ]
         }
     ]
+
     , "logLevel": 0
     , "findNestedDependencies": true
     , "optimizeCss": "standard"
