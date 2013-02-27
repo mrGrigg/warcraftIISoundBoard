@@ -1,0 +1,1 @@
+describe("String.prototype.trim ( )",function(){it("should be defined",function(){assert("Some text").should(respondTo,"trim")}),it("should remove whitespace from both ends of the string",function(){for(var t=["Some text","  Some text","Some text  ","  Some text  "],e=0;t.length>e;++e)assert(t[e].trim()).should(eql,"Some text")})});

@@ -1,0 +1,1 @@
+beforeEach(function(){this.addMatchers({toExactlyMatch:function(t){var e,n,o,i,r,s=this.actual,a=function(t){var e=[];for(r in t)t.hasOwnProperty(r)&&e.push(r);return e};if(e=a(s),n=a(t),o=e.length,o!==n.length)return!1;for(i=0;o>i;i++)r=e[i],expect(r).toEqual(n[i]),expect(s[r]).toEqual(t[r]);return!0}})});
